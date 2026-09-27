@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Predictive Maintenance Dashboard</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-industry"></i>
+
+            <h2>PredictAI</h2>
+
+        </div>
+
+        <ul>
+
+            <li class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                Dashboard
+            </li>
+
+            <li>
+                <i class="fa-solid fa-microchip"></i>
+                Prediction
+            </li>
+
+            <li>
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </li>
+
+            <li>
+                <i class="fa-solid fa-database"></i>
+                Database
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <!-- Header -->
+
+        <header>
+
+            <div>
+
+                <h1>Predictive Maintenance Dashboard</h1>
+
+                <p>
+                    Industrial Machine Failure Prediction using Random Forest
+                </p>
+
+            </div>
+
+        </header>
+
+        <!-- Statistics -->
+
+        <section class="stats">
+
+            <div class="card">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <h2 id="totalPredictions">0</h2>
+
+                <p>Total Predictions</p>
+
+            </div>
+
+            <div class="card healthy">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <h2 id="healthyCount">0</h2>
+
+                <p>Healthy Machines</p>
+
+            </div>
+
+            <div class="card failure">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <h2 id="failureCount">0</h2>
+
+                <p>Machine Failures</p>
+
+            </div>
+
+        </section>
+
+        <!-- Prediction Form -->
+
+        <section class="prediction-section">
+
+            <div class="form-card">
+
+                <h2>
+
+                    <i class="fa-solid fa-gears"></i>
+
+                    Machine Parameters
+
+                </h2>
+
+                <form id="predictionForm">
+
+                    <div class="grid">
+
+                        <div>
+
+                            <label>Temperature (°C)</label>
+
+                            <input
+                                type="number"
+                                id="temperature"
+                                placeholder="Enter Temperature"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>Pressure (Bar)</label>
+
+                            <input
+                                type="number"
+                                id="pressure"
+                                placeholder="Enter Pressure"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>Vibration</label>
+
+                            <input
+                                type="number"
+                                id="vibration"
+                                placeholder="Enter Vibration"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>Humidity (%)</label>
+
+                            <input
+                                type="number"
+                                id="humidity"
+                                placeholder="Enter Humidity"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>Machine Age</label>
+
+                            <input
+                                type="number"
+                                id="machine_age_years"
+                                placeholder="Years"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>Operating Hours</label>
+
+                            <input
+                                type="number"
+                                id="operating_hours"
+                                placeholder="Hours"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>RPM</label>
+
+                            <input
+                                type="number"
+                                id="rpm"
+                                placeholder="Enter RPM"
+                                required>
+
+                        </div>
+
+                        <div>
+
+                            <label>Torque</label>
+
+                            <input
+                                type="number"
+                                id="torque"
+                                placeholder="Enter Torque"
+                                required>
+
+                        </div>
+
+                    </div>
+
+                    <button type="submit" id="predictBtn">
+
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                        Predict Machine Status
+
+                    </button>
+
+                </form>
+
+            </div>
+
+            <!-- Prediction Result -->
+
+            <div class="result-card">
+
+                <h2>
+
+                    <i class="fa-solid fa-robot"></i>
+
+                    Prediction Result
+
+                </h2>
+
+                <div class="status-box">
+
+                    <h1 id="predictionResult">
+
+                        Waiting...
+
+                    </h1>
+
+                </div>
+
+                <div class="progress-section">
+
+                    <p>
+
+                        Healthy Probability
+
+                        <span id="healthyPercent">
+
+                            0%
+
+                        </span>
+
+                    </p>
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-fill healthy-fill"
+                            id="healthyBar">
+
+                        </div>
+
+                    </div>
+
+                    <p>
+
+                        Failure Probability
+
+                        <span id="failurePercent">
+
+                            0%
+
+                        </span>
+
+                    </p>
+
+                    <div class="progress">
+
+                        <div
+                            class="progress-fill failure-fill"
+                            id="failureBar">
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Prediction History -->
+
+        <section class="history">
+
+            <div class="history-card">
+
+                <div class="history-header">
+
+                    <h2>
+
+                        <i class="fa-solid fa-table"></i>
+
+                        Prediction History
+
+                    </h2>
+
+                    <button id="refreshBtn">
+
+                        Refresh
+
+                    </button>
+
+                </div>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+
+                            <th>Prediction</th>
+
+                            <th>Healthy %</th>
+
+                            <th>Failure %</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="historyTable">
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Loading Overlay -->
+
+    <div class="loading" id="loading">
+
+        <div class="spinner"></div>
+
+        <p>Predicting...</p>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
